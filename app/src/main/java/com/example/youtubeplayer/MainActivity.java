@@ -5,7 +5,7 @@ import com.google.android.youtube.player.*;
 
 public class MainActivity extends YouTubeBaseActivity {
 
-    private static final String API_KEY = "AIzaSyDbWnvREKK4X43q1kwp6aSzHrBRB7mxSdg";
+    private static final String API_KEY = "AIzaSyAnvWb7WP9IhBsom1Gh2i46KgGtp-aoed0";
     private static final String VIDEO_ID = "3JIPDZqkeSo"; // пример
 
     @Override

@@ -1,12 +1,16 @@
-package com.example.youtubeplayer;
-
 import android.os.Bundle;
-import com.google.android.youtube.player.*;
+import android.util.Log;
 
-public class MainActivity extends YouTubeBaseActivity {
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
-    private static final String API_KEY = "AIzaSyAnvWb7WP9IhBsom1Gh2i46KgGtp-aoed0";
-    private static final String VIDEO_ID = "3JIPDZqkeSo"; // пример
+public class MainActivity extends YouTubeBaseActivity
+        implements YouTubePlayer.OnInitializedListener {
+
+    private static final String API_KEY = "AIzaSyDtG2owBq8mNxzvjgGTvsUebAYUYvkfzas";
+    private static final String VIDEO_ID = "3JIPDZqkeSo";
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -14,26 +18,27 @@ public class MainActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_main);
 
         YouTubePlayerView playerView = findViewById(R.id.youtube_view);
-        playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+        playerView.initialize(API_KEY, this);
+    }
 
-            @Override
-            public void onInitializationSuccess(
-                    YouTubePlayer.Provider provider,
-                    YouTubePlayer player,
-                    boolean restored
-            ) {
-                if (!restored) {
-                    player.loadVideo(VIDEO_ID); // autoplay
-                }
-            }
+    @Override
+    public void onInitializationSuccess(
+            YouTubePlayer.Provider provider,
+            YouTubePlayer youTubePlayer,
+            boolean wasRestored
+    ) {
+        Log.d("YT", "INIT OK");
 
-            @Override
-            public void onInitializationFailure(
-                    YouTubePlayer.Provider provider,
-                    YouTubeInitializationResult error
-            ) {
-                error.getErrorDialog(MainActivity.this, 0).show();
-            }
-        });
+        if (!wasRestored) {
+            youTubePlayer.loadVideo(VIDEO_ID);
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(
+            YouTubePlayer.Provider provider,
+            YouTubeInitializationResult error
+    ) {
+        Log.e("YT", "INIT FAIL: " + error.toString());
     }
 }
